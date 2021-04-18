@@ -16,4 +16,5 @@ jobs:
         
     - name: Deploy to Firebase Hosting
       run: |
+        echo 'Hello!!!'
         firebase deploy
