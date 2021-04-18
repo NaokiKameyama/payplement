@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/8.3.2/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/8.3.2/firebase-auth.js"></script>
+    <script defer src="/__/firebase/8.3.2/firebase-database.js"></script>
+    <script defer src="/__/firebase/8.3.2/firebase-firestore.js"></script>
+    <script defer src="/__/firebase/8.3.2/firebase-functions.js"></script>
+    <script defer src="/__/firebase/8.3.2/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/8.3.2/firebase-storage.js"></script>
+    <script defer src="/__/firebase/8.3.2/firebase-analytics.js"></script>
+    <script defer src="/__/firebase/8.3.2/firebase-remote-config.js"></script>
+    <script defer src="/__/firebase/8.3.2/firebase-performance.js"></script>
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+  </head>
+  <body>
+    <!-- Load Stripe.js on your website. -->
+    <script src="https://js.stripe.com/v3"></script>
+
+
+    <h2>定期支払いボタンのデモページ(簡易)</h2>
+    <br />
+    <h3>❏ できること</h3>
+    <p>以下の流れのページを実装できます。(オンラインサロンは一例)</p>
+    <img 
+    src="./flow.png"
+    alt="購入の流れ"
+    title="購入の流れ"
+    width="70%"
+    >
+    <br />
+    <br />
+    <br />
+    <h3>❏ 実際に体験してみる</h3>
+    <p>
+      今すぐ購入ボタンをクリックし、
+      下記の入力情報を入力することで、
+      決済機能を無料で体験いただけます。
+      (お客様に請求されることは一切ありません)
+    </p>
+    <!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
+    <button
+      style="background-color:#6772E5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em"
+      id="checkout-button-price_1IcEk7C9PTR2uP4KdXdlwcGW"
+      role="link"
+      type="button"
+    >
+      月額980円で購入する(デモ)
+    </button>
+    <br />(デモなので、お客様に請求されることは一切ありません)
+    <br /><br />
+    <p>入力情報</p>
+    <ul>
+      <li>メールアドレス：任意のメールアドレス</li>
+      <li>カード情報：4242 4242 4242 4242</li>
+      <li>MM(月)/YY(年)：04/24</li>
+      <li>CVC：424</li>
+      <li>カード所有者名：test</li>
+    </ul>
+    <h>
+      商品購入後は、購入者に遷移させたい限定ページ等へ、
+      お客様を誘導することが可能になります。
+    </h>
+
+    <script>
+    (function() {
+      var stripe = Stripe('pk_test_51IcCVoC9PTR2uP4K0F7zkR5v9TE1jYNWgnEIAeSwtbagQb5PxsDHtVXNLCT516PCDto2ueUjqqYbU9st1R2KV9WI00URJXl6WV');
+
+      var checkoutButton = document.getElementById('checkout-button-price_1IcEk7C9PTR2uP4KdXdlwcGW');
+      checkoutButton.addEventListener('click', function () {
+        /*
+        * When the customer clicks on the button, redirect
+        * them to Checkout.
+        */
+        stripe.redirectToCheckout({
+          lineItems: [{price: 'price_1IcEk7C9PTR2uP4KdXdlwcGW', quantity: 1}],
+          mode: 'subscription',
+          /*
+          * Do not rely on the redirect to the successUrl for fulfilling
+          * purchases, customers may not always reach the success_url after
+          * a successful payment.
+          * Instead use one of the strategies described in
+          * https://stripe.com/docs/payments/checkout/fulfill-orders
+          */
+          successUrl: 'https://subsc-d9680.web.app/premium.html',
+      cancelUrl: 'https://subsc-d9680.web.app',
+        })
+        .then(function (result) {
+          if (result.error) {
+            /*
+            * If `redirectToCheckout` fails due to a browser or network
+            * error, display the localized error message to your customer.
+            */
+            var displayError = document.getElementById('error-message');
+            displayError.textContent = result.error.message;
+          }
+        });
+      });
+    })();
+    </script>
+  </body>
+</html>
