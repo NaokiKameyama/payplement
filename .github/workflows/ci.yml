@@ -1,25 +1,4 @@
-# name: Jekyll site CI
-
-# on:
-#   push:
-#     branches: [ main ]
-#   pull_request:
-#     branches: [ main ]
-
-# jobs:
-#   build:
-
-#     runs-on: ubuntu-latest
-
-#     steps:
-#     # - uses: actions/checkout@v2
-#     - name: Hello
-#       run: |
-#         echo 'Hello!!!'
-#     - name: Deploy to Firebase Hosting
-#       run: |
-#         firebase deploy --token=${{ secrets.FIREBASE_TOKEN }}
-
+# ubuntuでは何もインストールされていない状態だから、forebaseコマンドも(必要なものはすべて)インストールする必要がある。
 name: CI
 
 on:
@@ -29,13 +8,10 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
         - uses: actions/checkout@main
-        
         - name: Firebase Deploy
           run: |
-            sudo npm install -g firebase-tools
+            sudo npm install -g firebase-tools 
             firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
