@@ -13,8 +13,9 @@ jobs:
 
     steps:
     # - uses: actions/checkout@v2
-        
-    - name: Deploy to Firebase Hosting
+    - name: Hello
       run: |
         echo 'Hello!!!'
+    - name: Deploy to Firebase Hosting
+      run: |
         firebase deploy
