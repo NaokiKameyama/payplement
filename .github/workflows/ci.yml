@@ -1,21 +1,45 @@
-name: Jekyll site CI
+# name: Jekyll site CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
+
+# jobs:
+#   build:
+
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     # - uses: actions/checkout@v2
+#     - name: Hello
+#       run: |
+#         echo 'Hello!!!'
+#     - name: Deploy to Firebase Hosting
+#       run: |
+#         firebase deploy --token=${{ secrets.FIREBASE_TOKEN }}
+
+name: CI
+
+on: [push]
 
 jobs:
-  build:
-
+  FrontDeploy:
+    name: FrontDeploy
     runs-on: ubuntu-latest
-
     steps:
-    # - uses: actions/checkout@v2
-    - name: Hello
-      run: |
-        echo 'Hello!!!'
-    - name: Deploy to Firebase Hosting
+    - name: Checkout Repo
+      uses: actions/checkout@master
+    - name: setup Node
+      uses: actions/setup-node@v1
+      with: 
+        node-version: 10.x
+        registry-url: 'https://registry.npmjs.org'
+    - name: Install Dependencies
+      run: npm install
+    - name: Build
+      run: npm run build
+    - name: deploy to Firebase Hosting
       run: |
         firebase deploy --token=${{ secrets.FIREBASE_TOKEN }}
