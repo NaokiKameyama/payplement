@@ -18,4 +18,4 @@ jobs:
         echo 'Hello!!!'
     - name: Deploy to Firebase Hosting
       run: |
-        firebase deploy
+        firebase deploy --token=${{ secrets.FIREBASE_TOKEN }}
